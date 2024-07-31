@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(
-      { _id: userId },
+      userId,
       { isAcceptingMessage: acceptMessage },
       { new: true }
     );
@@ -78,8 +78,8 @@ export async function GET(request: Request) {
   
 
   try {
-    const foundUser = await UserModel.findByIdAndUpdate(
-      { _id: userId }
+    const foundUser = await UserModel.findById(
+       userId
     );
     if (!foundUser) {
       return Response.json(
