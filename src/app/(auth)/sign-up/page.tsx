@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 
-function Page() {
+function SignUp() {
   const [username, setUsername] = useState("");
   const [usernameMsg, setUsernameMsg] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -179,4 +179,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default SignUp;

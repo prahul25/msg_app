@@ -13,5 +13,5 @@ export const signUpSchema = z.object({
     .min(6, { message: "Password must be atleat 6 character" })
     .regex(/^[a-zA-Z0-9]+$/, {
       message: "Password must contain atleat one uppercase and Integer",
-    }),
+    })
 });

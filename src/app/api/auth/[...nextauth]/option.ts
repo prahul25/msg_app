@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials: any): Promise<any> {
         // next auth not aware about how to authorize
         await dbConnect();
-        console.log(credentials);
+        console.log(credentials ,'credential');
         try {
           const user = await UserModel.findOne({
             $or: [
@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
               { username: credentials.identifier },
             ],
           });
-
+          console.log(user , 'auth wala user')
           if (!user) {
             throw new Error("No user found with this email");
           }
@@ -42,8 +42,8 @@ export const authOptions: NextAuthOptions = {
           } else {
             throw new Error("Incorrect Password");
           }
-        } catch (error: any) {
-          throw new Error();
+        } catch (error:any) {
+          throw new Error(error);
         }
       },
     }),
@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_URL,
+  secret: process.env.NEXTAUTH_SECRET,
   theme: {
     colorScheme: "auto",
   },
