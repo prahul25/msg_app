@@ -1,0 +1,52 @@
+[
+    {
+      "title": "Message from CodeMaster",
+      "content": "I've been following your projects and they're truly inspiring! Keep up the great work.",
+      "received": "5 minutes ago"
+    },
+    {
+      "title": "Message from DevGuru",
+      "content": "Can you share some tips on improving coding efficiency? Your approach seems very effective.",
+      "received": "30 minutes ago"
+    },
+    {
+      "title": "Message from TechEnthusiast",
+      "content": "I attended your recent webinar on Next.js and it was fantastic! Looking forward to more.",
+      "received": "3 hours ago"
+    },
+    {
+      "title": "Message from CuriousLearner",
+      "content": "Could you recommend some resources for learning full-stack development?",
+      "received": "5 hours ago"
+    },
+    {
+      "title": "Message from FutureCoder",
+      "content": "Your journey from a B.Com background to a full-stack developer is really inspiring. Any advice for beginners?",
+      "received": "1 day ago"
+    },
+    {
+      "title": "Message from Innovator",
+      "content": "I'm impressed by your latest project! Do you have any plans to expand its features?",
+      "received": "2 days ago"
+    },
+    {
+      "title": "Message from OpenSourceFan",
+      "content": "Loved your contribution to the open-source project! It's great to see developers like you giving back to the community.",
+      "received": "1 week ago"
+    },
+    {
+      "title": "Message from UIUXDesigner",
+      "content": "Your UI/UX design skills are top-notch! Do you have any tips for creating intuitive user interfaces?",
+      "received": "2 weeks ago"
+    },
+    {
+      "title": "Message from BackendWizard",
+      "content": "Your backend architecture is very efficient. How do you ensure scalability and performance?",
+      "received": "3 weeks ago"
+    },
+    {
+      "title": "Message from DataScientist",
+      "content": "I found your talk on data-driven development very insightful. Can you share some real-world applications?",
+      "received": "1 month ago"
+    }
+  ]
