@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import AuthProvider from "@/context/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
+import './globals.css'
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      {children}
-    </div>
+    <html lang="en">
+      <AuthProvider>
+      <body className={inter.className}>
+        
+        {children}
+        <Toaster/>
+      </body>
+      </AuthProvider>
+    </html>
   );
 }
