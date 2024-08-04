@@ -30,7 +30,7 @@ function Dashboard() {
   const { data: session } = useSession();
 
   const form = useForm({
-    resolver: zodResolver(acceptMessagesSchema),
+    // resolver: zodResolver(acceptMessagesSchema),
   });
 
   const { register, watch, setValue } = form;
@@ -41,14 +41,15 @@ function Dashboard() {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>("/api/accept-messages"); // also here validate typescript
-      console.log(
-        response,
-        "response getting from send get request to check the state"
-      );
+      // console.log(
+      //   response.data,
+      //   "checking what the status of user is accepting or not"
+      // );
+
       setValue("acceptMessages", response.data.isAcceptingMessages); // try this isAcceptingMsg if not get
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      console.log(error);
+
       toast({
         title: "Error",
         description:
@@ -59,7 +60,7 @@ function Dashboard() {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue,toast]);
+  }, [setValue, toast]);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -77,7 +78,7 @@ function Dashboard() {
         }
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
-        console.log(error);
+        console.log(axiosError, "Error while fetching messages");
         toast({
           title: "Error",
           description:
@@ -88,14 +89,14 @@ function Dashboard() {
         setIsLoading(false);
       }
     },
-    [setIsLoading, setMessages,toast]
+    [setIsLoading, setMessages, toast]
   );
 
   useEffect(() => {
     if (!session || !session.user) return;
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+  }, [session, setValue, toast, fetchAcceptMessage, fetchMessages]);
 
   const handleSwitchChange = async () => {
     try {
@@ -109,7 +110,10 @@ function Dashboard() {
       });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      console.log(error);
+      console.log(
+        axiosError,
+        "Error while toggling the switch to accept message"
+      );
       toast({
         title: "Error",
         description:
@@ -119,6 +123,9 @@ function Dashboard() {
     }
   };
 
+  if (!session || !session.user) {
+    return <div></div>;
+  }
   const { username } = session?.user as User;
 
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
@@ -131,9 +138,6 @@ function Dashboard() {
       variant: "default",
     });
   };
-  if (!session || !session?.user) {
-    return <div>Please login</div>;
-  }
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">

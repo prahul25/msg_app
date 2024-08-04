@@ -8,7 +8,7 @@ export interface User extends Document {
   verifyCode: string;
   verifyCodeExpiry:Date
   isVerified:boolean
-  isAcceptingMsg:boolean
+  isAcceptingMessages:boolean
   messages:Message[] 
   // createdAt: Date;
 }
@@ -38,7 +38,7 @@ verifyCodeExpiry: {
     type: Date,
     required:[true,"Verify code is required"]
   },
-  isAcceptingMsg: {
+  isAcceptingMessages: {
     type:Boolean, // In mongoDB Boolean is written like this
     default:true
   },

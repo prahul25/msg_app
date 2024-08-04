@@ -1,5 +1,5 @@
 'use client'
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Messages from '@/messages.json'
 import Autoplay from 'embla-carousel-autoplay'
