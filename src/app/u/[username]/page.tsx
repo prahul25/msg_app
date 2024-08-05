@@ -37,7 +37,7 @@ const initialMessageString =
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
-  
+
   const {
     complete,
     completion,
@@ -61,17 +61,20 @@ export default function SendMessage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
-    const isAcceptingMessages = await fetchAcceptMessages()
-if (!isAcceptingMessages) {
-  toast({
-    title:'Error',
-    description:'User is not accepting messages.',
-    variant:'destructive'
-  })
-  return
-}
-    
-    
+    const isAcceptingMessages = await fetchAcceptMessages();
+    if (!isAcceptingMessages) {
+      toast({
+        title: "Error",
+        description: "User is not accepting messages.",
+        variant: "destructive",
+      });
+      console.log({
+        ...data,
+        username,
+      })
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await axios.post<ApiResponse>("/api/send-messages", {
@@ -109,7 +112,7 @@ if (!isAcceptingMessages) {
   const fetchAcceptMessages = async () => {
     try {
       const response = await axios.get("/api/accept-messages");
-      return response.data.isAcceptingMessages
+      return response.data.isAcceptingMessages;
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       console.log(
@@ -126,11 +129,6 @@ if (!isAcceptingMessages) {
     }
   };
 
-  // const fetchAcceptMessages = async() =>{
-  // }
-  // useEffect(()=>{
-  //   fetchAcceptMessages()
-  // },[messageContent])
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">

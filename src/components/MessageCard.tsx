@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import dayjs from 'dayjs'
 import {
   Card,
   CardContent,
@@ -34,7 +35,7 @@ type MessageCardProps = {
 
 function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const { toast } = useToast();
-  console.log(message);
+  console.log(message , 'message ko print karwate hue');
   async function handleDeleteConfirm() {
     const response = await axios.delete<ApiResponse>(
       `/api/delete-message/${message._id}`
@@ -48,7 +49,8 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+      <div className="flex justify-between items-center">
+        <CardTitle>{message.content}</CardTitle>
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive">
@@ -71,14 +73,15 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <CardDescription>Card Description</CardDescription>
+        </div>
+        {/* <CardDescription>Card Description</CardDescription> */}
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+      {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
       </CardContent>
-      <CardFooter>
+      {/* <CardFooter>
         <p>Card Footer</p>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

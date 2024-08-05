@@ -1,5 +1,5 @@
-import mongoose, { Document, Mongoose, Schema } from "mongoose";
-import { Message } from "./Message.model";
+import mongoose, { Document, Schema } from "mongoose";
+import MessageSchema, { Message } from "./Message.model";
 
 export interface User extends Document {
   username: string; // in TypeScript string is written like this
@@ -46,10 +46,7 @@ verifyCodeExpiry: {
     type:Boolean,
     default:false
   },
-  messages:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Message'
-  }]
+  messages:[MessageSchema]
   // createdAt: {
   //   type: Date,
   //   default: Date.now,
