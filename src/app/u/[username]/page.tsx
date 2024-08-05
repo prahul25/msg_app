@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { CardHeader, CardContent, Card } from '@/components/ui/card';
-import { useCompletion } from 'ai/react';
+import React, { useCallback, useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { CardHeader, CardContent, Card } from "@/components/ui/card";
+import { useCompletion } from "ai/react";
 import {
   Form,
   FormControl,
@@ -16,16 +16,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { toast } from '@/components/ui/use-toast';
-import * as z from 'zod';
-import { ApiResponse } from '@/types/ApiResponse';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { messageSchema } from '@/schemas/messageSchema';
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import * as z from "zod";
+import { ApiResponse } from "@/types/ApiResponse";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { messageSchema } from "@/schemas/messageSchema";
 
-const specialChar = '||';
+const specialChar = "||";
 
 const parseStringMessages = (messageString: string): string[] => {
   return messageString.split(specialChar);
@@ -37,14 +37,14 @@ const initialMessageString =
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
-
+  
   const {
     complete,
     completion,
     isLoading: isSuggestLoading,
     error,
   } = useCompletion({
-    api: '/api/suggest-messages',
+    api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
   });
 
@@ -52,34 +52,45 @@ export default function SendMessage() {
     resolver: zodResolver(messageSchema),
   });
 
-  const messageContent = form.watch('content');
+  const messageContent = form.watch("content");
 
   const handleMessageClick = (message: string) => {
-    form.setValue('content', message);
+    form.setValue("content", message);
   };
 
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+    const isAcceptingMessages = await fetchAcceptMessages()
+if (!isAcceptingMessages) {
+  toast({
+    title:'Error',
+    description:'User is not accepting messages.',
+    variant:'destructive'
+  })
+  return
+}
+    
+    
     setIsLoading(true);
     try {
-      const response = await axios.post<ApiResponse>('/api/send-messages', {
+      const response = await axios.post<ApiResponse>("/api/send-messages", {
         ...data,
         username,
       });
 
       toast({
         title: response.data.message,
-        variant: 'default',
+        variant: "default",
       });
-      form.reset({ ...form.getValues(), content: '' });
+      form.reset({ ...form.getValues(), content: "" });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
-        title: 'Error',
+        title: "Error",
         description:
-          axiosError.response?.data.message ?? 'Failed to sent message',
-        variant: 'destructive',
+          axiosError.response?.data.message ?? "Failed to sent message",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -88,12 +99,38 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete('');
+      complete("");
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      console.error("Error fetching messages:", error);
       // Handle error appropriately
     }
   };
+
+  const fetchAcceptMessages = async () => {
+    try {
+      const response = await axios.get("/api/accept-messages");
+      return response.data.isAcceptingMessages
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      console.log(
+        error,
+        "Error occured while fetching Is user accepting messages"
+      );
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ??
+          "Failed to get isAccepting message status",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // const fetchAcceptMessages = async() =>{
+  // }
+  // useEffect(()=>{
+  //   fetchAcceptMessages()
+  // },[messageContent])
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -170,7 +207,7 @@ export default function SendMessage() {
       <Separator className="my-6" />
       <div className="text-center">
         <div className="mb-4">Get Your Message Board</div>
-        <Link href={'/sign-up'}>
+        <Link href={"/sign-up"}>
           <Button>Create Your Account</Button>
         </Link>
       </div>

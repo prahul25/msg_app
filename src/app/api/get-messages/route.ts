@@ -29,7 +29,7 @@ export async function GET(request: Request) {
       {$sort:{'messages.createdAt':-1}},
       {$group:{_id:'$_id',messages:{$push:'$messages'}}}
     ])
-    console.log(user , 'checking from userid')
+    // console.log(user , 'checking from userid')
 
     if (!user || user.length === 0) {
         return Response.json({
