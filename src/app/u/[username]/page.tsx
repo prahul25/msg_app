@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,6 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
-import { useCompletion } from "ai/react";
 import {
   Form,
   FormControl,
@@ -24,6 +23,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { messageSchema } from "@/schemas/messageSchema";
+import { useCompletion } from "ai/react";
 
 const specialChar = "||";
 
@@ -47,6 +47,7 @@ export default function SendMessage() {
     api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
   });
+  console.log({ complete, initialMessageString });
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
@@ -102,19 +103,29 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      
-      complete("");
+      await complete("");
+
+      const isError = JSON.parse(error?.message || "");
+
+      if (isError.status === 401) {
+        console.log("object");
+        toast({
+          title: "Error",
+          description: isError.message,
+          variant: "destructive",
+        });
+      }
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       console.log(
         axiosError,
-        "Error occured while fetching ai generative messages"
+        "Error occurred while fetching AI generative messages"
       );
       toast({
         title: "Error",
         description:
           axiosError.response?.data.message ??
-          "Error occured while fetching ai generative messages",
+          "Error occurred while fetching AI generative messages",
         variant: "destructive",
       });
     }
@@ -128,13 +139,13 @@ export default function SendMessage() {
       const axiosError = error as AxiosError<ApiResponse>;
       console.log(
         error,
-        "Error occured while fetching Is user accepting messages"
+        "Error occurred while fetching if user is accepting messages"
       );
       toast({
         title: "Error",
         description:
           axiosError.response?.data.message ??
-          "Failed to get isAccepting message status",
+          "Failed to get accepting message status",
         variant: "destructive",
       });
     }
@@ -196,7 +207,9 @@ export default function SendMessage() {
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
             {error ? (
-              <p className="text-red-500">{error.message}</p>
+              <p className="text-red-500">
+                {JSON.parse(error.message).message}
+              </p>
             ) : (
               parseStringMessages(completion).map((message, index) => (
                 <Button
