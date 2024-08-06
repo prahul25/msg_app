@@ -35,12 +35,12 @@ type MessageCardProps = {
 
 function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const { toast } = useToast();
-  console.log(message , 'message ko print karwate hue');
+  // console.log(message , 'message ko print karwate hue');
   async function handleDeleteConfirm() {
     const response = await axios.delete<ApiResponse>(
       `/api/delete-message/${message._id}`
     );
-    console.log(response, "delete ka response");
+    // console.log(response, "delete ka response");
     toast({
       title: response.data.message,
     });

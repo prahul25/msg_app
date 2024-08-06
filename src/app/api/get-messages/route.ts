@@ -43,7 +43,7 @@ export async function GET(request: Request) {
         messages:user[0].messages
     },{status:200})
   } catch (error) {
-    console.log("Failed to fetched all user's messages", error);
+    // console.log("Failed to fetched all user's messages", error);
     return Response.json(
       {
         success: false,

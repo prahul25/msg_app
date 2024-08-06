@@ -71,7 +71,7 @@ export default function SendMessage() {
       console.log({
         ...data,
         username,
-      })
+      });
       return;
     }
 
@@ -102,10 +102,21 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
+      
       complete("");
     } catch (error) {
-      console.error("Error fetching messages:", error);
-      // Handle error appropriately
+      const axiosError = error as AxiosError<ApiResponse>;
+      console.log(
+        axiosError,
+        "Error occured while fetching ai generative messages"
+      );
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ??
+          "Error occured while fetching ai generative messages",
+        variant: "destructive",
+      });
     }
   };
 
@@ -128,7 +139,6 @@ export default function SendMessage() {
       });
     }
   };
-
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">

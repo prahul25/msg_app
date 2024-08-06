@@ -50,7 +50,7 @@ function SignUp() {
           const response = await axios.get(
             `/api/check-username-unique?username=${username}`
           );
-          console.log(response, "response");
+          // console.log(response, "response");
           setUsernameMsg(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -70,7 +70,7 @@ function SignUp() {
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
-      console.log(data);
+      // console.log(data);
       const response = await axios.post<ApiResponse>("/api/sign-up", data);
       toast({
         title: "Success",
@@ -80,9 +80,9 @@ function SignUp() {
       router.replace(`/verify/${username}`);
       setIsSubmitting(false);
     } catch (error) {
-      console.error("Error in signup of user", error);
+      // console.error("Error in signup of user", error);
       const axiosError = error as AxiosError<ApiResponse>;
-      console.log(axiosError, "axios error");
+      // console.log(axiosError, "axios error");
       let errorMsg = axiosError.response?.data.message;
       toast({
         title: "Signup Failed",

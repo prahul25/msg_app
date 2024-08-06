@@ -17,14 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
-
+import { ToastAction } from "@/components/ui/toast";
 
 function SignIn() {
   const { toast } = useToast();
-  const router = useRouter()
+  const router = useRouter();
 
   //zod implementation
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -36,31 +35,39 @@ function SignIn() {
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       redirect: false,
       identifier: data.identifier,
       password: data.password,
     });
 
+   
     if (result?.error) {
-      if (result.error === 'CredentialsSignin') {
+      if (result.error === "Error: CredentialsSignin") {
         toast({
-          title: 'Login Failed',
-          description: 'Incorrect username or password',
-          variant: 'destructive',
+          title: "Login Failed",
+          description: "Incorrect username or password",
+          variant: "destructive",
+        });
+      } else if (result.error === "Error: VerifyAccount") {
+       
+        toast({
+          title: "Verify",
+          description: `${result.error} account through sign up`,
+          variant: "destructive",
+          action: <ToastAction altText="Click here"><Link href='/sign-up'>Click here</Link></ToastAction>,
         });
       } else {
         toast({
-          title: 'Error',
+          title: "Error",
           description: result.error,
-          variant: 'destructive',
+          variant: "destructive",
         });
       }
     }
 
     if (result?.url) {
-      router.replace('/dashboard');
+      router.replace("/dashboard");
     }
   };
   return (

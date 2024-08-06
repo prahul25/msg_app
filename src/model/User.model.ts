@@ -47,11 +47,6 @@ verifyCodeExpiry: {
     default:false
   },
   messages:[MessageSchema]
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now,
-  //   required: true,
-  // },
 });
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);

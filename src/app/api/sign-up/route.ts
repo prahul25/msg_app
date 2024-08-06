@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User.model";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
-import { ApiResponse } from "@/types/ApiResponse";
+
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     }
 
     const existingUserByEmail = await UserModel.findOne({ email });
+    
     const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
@@ -34,11 +35,18 @@ export async function POST(request: Request) {
           { status: 400 }
         );
       } else {
-        const hashedPassword = await bcrypt.hash(password,10)
-        existingUserByEmail.password = hashedPassword
+        // const hashedPassword = await bcrypt.hash(password,10)
+        // existingUserByEmail.password = hashedPassword
         existingUserByEmail.verifyCode = verifyCode
         existingUserByEmail.verifyCodeExpiry = new Date(Date.now()+3600000)
         await existingUserByEmail.save()
+        return Response.json(
+          {
+            success: false,
+            message: 'User is already registered. New verification sent over registered mail.',
+          },
+          { status: 200 }
+        );
       }
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -74,16 +82,16 @@ export async function POST(request: Request) {
         );
       }
 
-      return Response.json(
-        {
-          success: true,
-          message: 'User registered successfully. Please verify your account.',
-        },
-        { status: 201 }
-      );
     }
+    return Response.json(
+      {
+        success: true,
+        message: 'User registered successfully. Please verify your account.',
+      },
+      { status: 201 }
+    );
   } catch (error) {
-    console.error("Error while registering user");
+    console.error("Error while registering user ",error);
     return Response.json(
       {
         success: false,

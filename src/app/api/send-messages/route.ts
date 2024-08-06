@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   await dbConnect();
 
   const { username, content } = await request.json();
-  console.log({username,content},'Checking is that we are getting info')
+  // console.log({username,content},'Checking is that we are getting info')
   try {
     const user = await UserModel.findOne({ username });
     if (!user) {
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log("Successfully message sent", error);
+    // console.log("Successfully message sent", error);
     return Response.json(
       {
         success: false,

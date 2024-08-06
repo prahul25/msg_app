@@ -41,7 +41,7 @@ export async function DELETE(request: Request , {params}:{params:{messageid:stri
       { status: 200 }
     );
   } catch (error) {
-    console.log("Error while deleting message", error);
+    // console.log("Error while deleting message", error);
     return Response.json(
       {
         success: false,
