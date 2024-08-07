@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# **MSG App**
 
-## Getting Started
+## **Overview** [https://msg-app-iota.vercel.app]()
 
-First, run the development server:
+The **MSG App** is a comprehensive platform designed for users to send and receive anonymous messages, manage their profiles, and interact securely. Built with modern technologies like Next.js, React, and MongoDB, it provides a user-friendly experience with features like user verification, AI-generated message suggestions, and responsive design.
 
+## **Features**
+
+- **Anonymous Messaging:** Send and receive anonymous messages.
+- **User Verification:** Email verification with code expiration handling.
+- **AI-Generated Suggestions:** Get suggestions for message content.
+- **Responsive Design:** Optimized for various devices and screen sizes.
+- **Secure Authentication:** Implemented with NextAuth for secure user management.
+
+## **Technologies Used**
+
+### **Frontend:**
+- **Next.js:** React framework for server-side rendering and static site generation.
+- **Tailwind CSS:** Utility-first CSS framework for styling.
+
+### **Backend:**
+- **Node.js:** JavaScript runtime for server-side logic.
+- **Express.js:** Web application framework for Node.js.
+- **MongoDB:** NoSQL database for data storage.
+
+### **Authentication:**
+- **NextAuth:** Authentication library for Next.js.
+
+### **Email Service:**
+- **Resend:** Service for sending verification emails.
+
+## **Getting Started**
+
+### **Prerequisites**
+
+- Node.js (version 14.x or later)
+- MongoDB instance
+- Resend API Key
+- NextAuth Secret
+- OpenAI API Key (if using AI features)
+
+### **Installation**
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/msg-app.git
+   cd msg-app
+   ```
+2. **Install Dependencies:**
+
+   ```bash
+   npm install
+   ```
+3. **Set Up Environment Variables:**  
+*Create a .env file in the root directory and add the following variables:*
+   ```bash
+    DB_URI="your-mongodb-connection-string"
+    RESEND_API_KEY="your-resend-api-key"
+    NEXTAUTH_SECRET="your-nextauth-secret"
+    OPENAI_API_KEY="your-openai-api-key"
+    DOMAIN="http://localhost:3000"
+   ```
+4. **Run the Development Server:**
+
+   ```bash
+   npm run dev
+    ```
+    Navigate to http://localhost:3000 to see the app in action.
+
+### **API Endpoints:**
+
+- POST /api/send-messages: Send an anonymous message.
+- GET /api/accept-messages: Check if the user is accepting messages.
+- POST /api/verify-code: Verify the user's email verification code.
+- DELETE /api/delete-message/:id: Delete a specific message.
+
+### **Acknowledgements**
+- Next.js: For the powerful React framework.
+- Tailwind CSS: For the excellent styling framework.
+- MongoDB: For the flexible NoSQL database.
+- Resend: For reliable email delivery.
+- OpenAI: For AI-powered features.
+
+### **Contact**  
+For any questions or issues, please me on linkedin.  
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+www.linkedin.com/in/rahulkumarpal25
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
