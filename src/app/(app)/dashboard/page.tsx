@@ -30,7 +30,7 @@ function Dashboard() {
   const { data: session } = useSession();
 
   const form = useForm({
-    // resolver: zodResolver(acceptMessagesSchema)
+    resolver: zodResolver(acceptMessagesSchema)
   });
 
   const { register, watch, setValue } = form;

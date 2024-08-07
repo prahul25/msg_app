@@ -52,7 +52,7 @@ export default function SendMessage() {
   // console.log({ completion, initialMessageString });
   // console.log(error , 'Error ko print karwate hue')
   const form = useForm<z.infer<typeof messageSchema>>({
-    resolver: zodResolver(messageSchema),
+    resolver: zodResolver(messageSchema)
   });
 
   const messageContent = form.watch("content");
