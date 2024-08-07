@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
 import { ToastAction } from "@/components/ui/toast";
+import { signInSchema } from "@/schemas/signInSchema";
 
 function SignIn() {
   const { toast } = useToast();
@@ -27,7 +27,7 @@ function SignIn() {
 
   //zod implementation
   const form = useForm<z.infer<typeof signInSchema>>({
-    // resolver: zodResolver(signInSchema),
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       identifier: "",
       password: "",
