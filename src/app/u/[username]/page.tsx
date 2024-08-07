@@ -49,10 +49,9 @@ export default function SendMessage() {
     api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
   });
-  // console.log({ completion, initialMessageString });
-  // console.log(error , 'Error ko print karwate hue')
+
   const form = useForm<z.infer<typeof messageSchema>>({
-    resolver: zodResolver(messageSchema)
+    resolver: zodResolver(messageSchema),
   });
 
   const messageContent = form.watch("content");
@@ -120,9 +119,9 @@ export default function SendMessage() {
       setCustomErr((prevErr: string | null) => (prevErr = ""));
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      console.log(
-        axiosError,
-        "Error occurred while fetching AI generative messages"
+      console.error(
+        "Error occurred while fetching AI generative messages",
+        axiosError
       );
       toast({
         title: "Error",
@@ -141,9 +140,9 @@ export default function SendMessage() {
       return response.data.isAcceptingMessages;
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      console.log(
-        error,
-        "Error occurred while fetching if user is accepting messages"
+      console.error(
+      
+        "Error occurred while fetching if user is accepting messages",error
       );
       toast({
         title: "Error",

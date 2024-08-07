@@ -6,7 +6,6 @@ export async function POST(request: Request) {
   await dbConnect();
 
   const { username, content } = await request.json();
-  // console.log({username,content},'Checking is that we are getting info')
   try {
     const user = await UserModel.findOne({ username });
     if (!user) {
@@ -31,11 +30,9 @@ export async function POST(request: Request) {
     
     const newMessage = {content , createdAt:new Date()}
     
-    // console.log(user.messages,'checking user messagws kaise le raha he')
     user.messages.push(newMessage as Message)
     
     await user.save()
-    // console.log(user.messages,'Checking that message saving or not')
     return Response.json(
       {
         success: true,
@@ -44,7 +41,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    // console.log("Successfully message sent", error);
+    console.error("Successfully message sent", error);
     return Response.json(
       {
         success: false,

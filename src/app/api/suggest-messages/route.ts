@@ -1,7 +1,6 @@
-import { LanguageModel, streamText } from "ai";
 import { NextResponse } from "next/server";
 import OpenAI, { ClientOptions } from "openai";
-import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
+
 
 // Initialize OpenAI client with API key
 const openai = new OpenAI({

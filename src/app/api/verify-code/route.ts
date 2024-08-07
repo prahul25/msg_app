@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User.model";
 
 export async function POST(request: Request) {
-  dbConnect();
+  await dbConnect();
 
   try {
     const { username, code } = await request.json(); // if we take username from url we shuould best practice like to decode the url because browser replace their specail character with the username contains special character
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     if (!user) {
       return Response.json(
         { success: false, message: "User not found" },
-        { status: 400 }
+        { status: 404 }
       );
     }
 
@@ -42,10 +42,10 @@ export async function POST(request: Request) {
       );
     }
   } catch (error) {
-    // console.log("Error while verifying code");
+    console.log("Error while verifying code",error);
     return Response.json(
       { success: false, message: "Error while verifying user" },
-      { status: 200 }
+      { status: 500 }
     );
   }
 }

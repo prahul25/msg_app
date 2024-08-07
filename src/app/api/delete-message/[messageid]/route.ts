@@ -3,7 +3,7 @@ import { authOptions } from "../../auth/[...nextauth]/option";
 import UserModel from "@/model/User.model";
 import dbConnect from "@/lib/dbConnect";
 import { User } from "next-auth";
-import mongoose from "mongoose";
+
 
 export async function DELETE(request: Request , {params}:{params:{messageid:string}}) {
   await dbConnect();
@@ -41,7 +41,7 @@ export async function DELETE(request: Request , {params}:{params:{messageid:stri
       { status: 200 }
     );
   } catch (error) {
-    // console.log("Error while deleting message", error);
+    console.error("Error while deleting message", error);
     return Response.json(
       {
         success: false,

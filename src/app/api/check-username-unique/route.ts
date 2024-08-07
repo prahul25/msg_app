@@ -9,16 +9,6 @@ const UsernameQuerySchema = z.object({
 });
 
 export async function GET(request: Request) {
-    
-//   if (request.method !== "GET") {
-//     return Response.json(
-//       {
-//         success: false,
-//         message: "Only GET method allowed",
-//       },
-//       { status: 405 }
-//     );
-//   }
 
   await dbConnect();
 
@@ -28,7 +18,7 @@ export async function GET(request: Request) {
 
     // validate with zod
     const result = UsernameQuerySchema.safeParse(queryParam);
-    // console.log(result, "result");
+    
     if (!result.success) {
       const usernameErrors = result.error.format().username?._errors || [];
       return Response.json(
@@ -71,7 +61,7 @@ export async function GET(request: Request) {
       }
     );
   } catch (error) {
-    // console.log("Error while checking username");
+    console.error(error,"Error while checking username");
     return Response.json(
       { success: false, message: "Error while checking username" },
       { status: 500 }
