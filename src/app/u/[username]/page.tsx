@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -37,18 +37,20 @@ const initialMessageString =
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
+  const [customErr, setCustomErr] = useState<string | null>(null);
 
   const {
     complete,
     completion,
+    setCompletion,
     isLoading: isSuggestLoading,
     error,
   } = useCompletion({
     api: "/api/suggest-messages",
     initialCompletion: initialMessageString,
   });
-  console.log({ complete, initialMessageString });
-
+  // console.log({ completion, initialMessageString });
+  // console.log(error , 'Error ko print karwate hue')
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
   });
@@ -59,7 +61,7 @@ export default function SendMessage() {
     form.setValue("content", message);
   };
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading]: any = useState(false);
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     const isAcceptingMessages = await fetchAcceptMessages();
@@ -106,15 +108,16 @@ export default function SendMessage() {
       await complete("");
 
       const isError = JSON.parse(error?.message || "");
-
+      setCustomErr(error?.message || "");
       if (isError.status === 401) {
-        console.log("object");
         toast({
           title: "Error",
-          description: isError.message,
+          description: "Error occurred while fetching AI generative messages",
           variant: "destructive",
         });
+        setCompletion(initialMessageString as string);
       }
+      setCustomErr((prevErr: string | null) => (prevErr = ""));
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       console.log(
@@ -128,6 +131,7 @@ export default function SendMessage() {
           "Error occurred while fetching AI generative messages",
         variant: "destructive",
       });
+      setCompletion(initialMessageString as string);
     }
   };
 
@@ -206,9 +210,9 @@ export default function SendMessage() {
             <h3 className="text-xl font-semibold">Messages</h3>
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
-            {error ? (
+            {customErr ? (
               <p className="text-red-500">
-                {JSON.parse(error.message).message}
+                {customErr /*JSON.parse(error.message).message*/}
               </p>
             ) : (
               parseStringMessages(completion).map((message, index) => (
