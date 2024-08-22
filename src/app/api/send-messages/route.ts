@@ -17,7 +17,7 @@ export async function POST(request: Request) {
         { status: 404 }
       );
     }
-    
+    console.log(user ,"chcking user")
     if (!user.isAcceptingMessages) {
       return Response.json(
         {
