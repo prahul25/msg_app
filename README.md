@@ -1,6 +1,6 @@
 # **MSG App**
 
-## **Overview** [https://msg-app-iota.vercel.app]()
+## **Overview** [https://msg-app-iota.vercel.app]
 
 The **MSG App** is a comprehensive platform designed for users to send and receive anonymous messages, manage their profiles, and interact securely. Built with modern technologies like Next.js, React, and MongoDB, it provides a user-friendly experience with features like user verification, AI-generated message suggestions, and responsive design.
 
